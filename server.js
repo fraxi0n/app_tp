@@ -55,16 +55,6 @@ const server = http.createServer((req, res) => {
 
                 // alert('Utilisateur ' + name + 'ajouté !')
 
-
-
-
-
-
-
-                // Add the user to the database or perform any other necessary operations
-                // ...
-
-                // Send a response to the client
                 res.statusCode = 302;
                 res.setHeader('Location', '/');
                 res.end();
