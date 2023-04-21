@@ -1,9 +1,12 @@
 
-import dayJS from 'dayjs'
 import ejs from 'ejs'
 import http from 'http'
 import fs from 'fs'
+import dayjs from 'dayjs'
+
 import { students } from './data/data.js'
+
+dayjs.locale('fr')
 
 const server = http.createServer((req, res) => {
     switch (req.url) {
@@ -23,7 +26,7 @@ const server = http.createServer((req, res) => {
 
 
             const template = fs.readFileSync('views/users.ejs', 'utf8');
-            const rendered = ejs.render(template, { students });
+            const rendered = ejs.render(template, { students, dayjs });
             res.writeHead(200, { 'Content-Type': 'text/html' });
             res.write(rendered);
             res.end();

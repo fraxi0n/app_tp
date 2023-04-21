@@ -28,7 +28,7 @@
                 </br>
                 <div>
                     DATE DE NAISSANCE :
-                    <%= student.birth%>
+                    <%= dayjs( student.birth ).locale('fr').format('LL') %>
                 </div>
 
             </li>
