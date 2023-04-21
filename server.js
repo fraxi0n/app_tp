@@ -1,24 +1,13 @@
-const fs = require('fs');
-const dayJS = require('dayjs')
-const ejs = require('ejs');
-const http = require('http')
-const { parse } = require("querystring");
 
-app.post('/add-user', (req, res) => {
-    // Get the form data from the request body
-    const { name, birthdate } = req.body;
-    // Parse the birthdate into a Date object using Day.js
-    const dateObj = dayjs(birthdate, 'YYYY-MM-DD').toDate();
-    // Add the new user to the list
-    userList.push({ name, birth: dateObj });
-    // Send a success response
-    res.sendStatus(200);
-});
+import dayJS from 'dayjs'
+import ejs from 'ejs'
+import http from 'http'
+import fs from 'fs'
+import { students } from './data/data.js'
 
 const server = http.createServer((req, res) => {
     switch (req.url) {
         case '/':
-            // Return the form to add a user
             res.writeHead(200, { 'Content-Type': 'text/html' });
             ejs.renderFile('./views/home.ejs', {}, {}, (err, str) => {
                 if (err) {
@@ -30,18 +19,56 @@ const server = http.createServer((req, res) => {
             });
             break;
         case '/users':
-            ejs.renderFile('./views/users.ejs', {}, {}, (err, str) => {
-                if (err) {
-                    console.error(err);
-                    res.end('An error occurred');
-                } else {
-                    res.end(str);
-                }
-            });
 
-            // res.writeHead(200, { 'Content-Type': 'text/html' });
-            // res.write();
-            // res.end();
+
+
+            const template = fs.readFileSync('views/users.ejs', 'utf8');
+            const rendered = ejs.render(template, { students });
+            res.writeHead(200, { 'Content-Type': 'text/html' });
+            res.write(rendered);
+            res.end();
+
+
+            break;
+
+        case '/assets/css/style.css':
+            const cssFile = fs.readFileSync('assets/css/style.css', 'utf8');
+            res.writeHead(200, { 'Content-Type': 'text/css' });
+            res.write(cssFile);
+            res.end();
+            break;
+
+        case '/addUser':
+
+            console.log('j ajoute un user')
+
+            let body = '';
+            req.on('data', chunk => {
+                body += chunk.toString();
+            });
+            req.on('end', () => {
+                const formData = new URLSearchParams(body);
+                const name = formData.get('name');
+                const birthdate = formData.get('birthdate');
+
+                students.push({ name: name, birth: birthdate })
+
+                // alert('Utilisateur ' + name + 'ajouté !')
+
+
+
+
+
+
+
+                // Add the user to the database or perform any other necessary operations
+                // ...
+
+                // Send a response to the client
+                res.statusCode = 302;
+                res.setHeader('Location', '/');
+                res.end();
+            });
             break;
     }
 });

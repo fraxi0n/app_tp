@@ -1,5 +1,14 @@
 <!DOCTYPE html>
+<link rel="stylesheet" href="assets\css\style.css">
+
 <html>
+
+<nav>
+    <a href="/"> Accueil </a>
+    </br>
+    <a href="/users"> Liste utilisateurs</a>
+</nav>
+
 
 <head>
     <meta charset="UTF-8">
@@ -7,11 +16,24 @@
 </head>
 
 <body>
-    <h1> PAGE UTILISATEUR</h1>
-    <p>Bienvenue sur notre site d'annonces ! Voici les dernières annonces :</p>
-
-
-
+    <h1> Liste des utilisateurs :</h1>
+    <ul>
+        <% for( const student of students ) { %>
+            <li>
+                <div>
+                    NOM :
+                </div>
+                <%= student.name %>
+                    </br>
+                    <div>
+                        DATE DE NAISSANCE :
+                    </div>
+                    <%= student.birth%>
+            </li>
+            </br>
+            </br>
+            <% } %>
+    </ul>
 </body>
 
 </html>

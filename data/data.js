@@ -1,4 +1,4 @@
-const students = [
+export const students = [
     { name: "Sonia", birth: "2019-14-05" },
     { name: "Antoine", birth: "2000-12-05" },
     { name: "Alice", birth: "1990-14-09" },
